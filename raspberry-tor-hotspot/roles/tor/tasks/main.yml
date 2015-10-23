@@ -1,0 +1,49 @@
+---
+# Install the necessary packages to Torify our Wi-Fi hotspot.
+- name: Install Tor
+  apt: pkg={{ item }} state=latest
+  sudo: yes
+  with_items:
+    - tor
+    - obfsproxy
+    - tor-arm
+
+- name: Copy the new Tor template over to the Raspberry Pi.
+  template: src=torrc.j2 dest=/etc/tor/torrc
+  sudo: yes
+
+- name: Create some logs for Tor so we can find problems later.
+  shell: touch /var/log/tor/notices.log
+  sudo: yes
+
+- name: Change the owner of the Tor logs.
+  shell: chown debian-tor /var/log/tor/notices.log
+  sudo: yes
+
+- name: Change the permission sof the Tor logs.
+  shell: chmod 644 /var/log/tor/notices.log
+  sudo: yes
+
+- name: Flush existing iptables configurations.
+  shell: iptables -F
+  sudo: yes
+
+- name: Flush existing NAT routing table.
+  shell: iptables -t nat -F
+  sudo: yes
+
+- name: Copy our new iptables configuration file to the Raspberry Pi.
+  copy: src=iptables.conf dest=/tmp/iptables.conf
+  sudo: yes
+
+- name: Import iptables configuration to the Raspberry Pi.
+  shell: iptables-restore < /tmp/iptables.conf
+  sudo: yes
+
+- name: Save iptables configuration immediately on the Raspberry Pi.
+  shell: sh -c "iptables-save > /etc/iptables.ipv4.nat"
+  sudo: yes
+
+- name:  Ensure Tor starts at boot.
+  shell: update-rc.d tor enable
+  sudo: yes

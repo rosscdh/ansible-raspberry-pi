@@ -1,0 +1,4 @@
+# Change these variables invest normal data file to reflect your SSID and passphrase.
+ORPort: 443
+contactinfo: nobody@example.net
+nickname: onionsforTea

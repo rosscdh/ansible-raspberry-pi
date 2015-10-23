@@ -1,0 +1,25 @@
+---
+- name: Let's Clone the oh-my-zsh repository.
+  git: repo=https://github.com/robbyrussell/oh-my-zsh.git dest=/home/{{ user }}/.oh-my-zsh
+
+- name: And create a conf folder in home directory
+  file: path=/home/{{ user }}/conf/ state=directory owner={{ user }}
+
+- name: Next we will deploy our deploy .zshrc file.
+  template: src=zshrc.j2 dest=/home/{{ user }}/conf/zshrc owner={{ user }}
+
+- name: Now we can deploy aliases.zsh
+  template: src=aliases.zsh.j2 dest=/home/{{ user }}/conf/aliases owner={{ user }}
+
+- name: Make sure we remove the existing zshrc.
+  file: path=/home/{{ user }}/.zshrc state=absent
+
+- name: Then we symlink zshrc.
+  file: path=/home/{{ user }}/.zshrc src=/home/{{ user }}/conf/zshrc state=link owner={{ user }}
+
+- name: And now we symlink our aliases.
+  file: path=/home/{{ user }}/.oh-my-zsh/custom/aliases.zsh src=/home/{{ user }}/conf/aliases state=link owner={{ user }}
+
+- name: And finally we can set zsh as default shell.
+  user: name={{ user }} shell=/usr/bin/zsh
+  sudo: yes

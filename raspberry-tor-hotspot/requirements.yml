@@ -1,0 +1,3 @@
+# raspi-config from ansible-galaxy
+- src: mikolak.raspi-config
+  path: roles/

@@ -1,0 +1,9 @@
+---
+- name: Let's Clone the rmate repository.
+  git: repo=https://github.com/aurora/rmate.git dest=/home/{{ user }}/rmate
+
+- name: Let's move rmate to /usr/local/bin
+  command: mv /home/{{ user }}/rmate/rmate /usr/local/bin/mate
+
+- name: Let's remove the extraneous rmate folder.
+  file: path=/home/{{ user }}/rmate state=absent

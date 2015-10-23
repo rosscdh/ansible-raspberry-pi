@@ -1,0 +1,6 @@
+---
+- name: Copy over vim configuration folder.
+  copy: src=vim/ dest=/home/{{ user }}/.vim owner={{ user }}
+
+- name: Now we can deploy vimrc template.
+  template: src=vimrc.j2 dest=/home/{{ user }}/.vimrc owner={{ user }}

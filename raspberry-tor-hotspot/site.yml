@@ -1,0 +1,20 @@
+---
+- hosts: all
+  remote_user: pi
+  sudo: True
+  gather_facts: yes
+
+  roles:
+    - role: mikolak.raspi-config
+  # - common
+  # - oh-my-zsh
+  # - rmate
+  # - vim
+  # - hotspot
+  # - tor
+
+  tasks:
+  #   - name: Final greeting upon successful Completion.
+    #    pause: prompt="If you've got this far without any errors everything is probably okay! Press [Enter] to continue."
+    - name: rebooting
+      action: command /sbin/reboot

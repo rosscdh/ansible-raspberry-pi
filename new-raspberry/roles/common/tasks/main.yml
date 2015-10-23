@@ -1,0 +1,45 @@
+---
+- name: Let's update the apt cache.
+  apt: update_cache=yes
+  sudo: yes
+
+- name: Now we need to update the Raspbian distribution.
+  apt: upgrade=yes
+  sudo: yes
+
+- name: We are setting our new hostname.
+  hostname: name={{ hostname }}
+
+- name: Make sure some basic tools are installed
+  apt: pkg={{ item }} state=latest
+  sudo: yes
+  with_items:
+    - unattended-upgrades
+    - git
+    - subversion
+    - mercurial
+    - httpie
+    - curl
+    - htop
+    - nmap
+    - tmux
+    - nmon
+    - rpi-update
+    - haveged
+    - avahi-daemon
+    - rng-tools
+    - vim
+
+- name: Uninstall the massive wolfram-alpha engine
+  apt: pkg={{ item }} state=absent
+  sudo: yes
+  with_items:
+    - wolfram-engine
+
+- name: Autoremove any unused packages.
+  shell: "apt-get autoremove --assume-yes --purge"
+  sudo: yes
+
+- name: Let's Autoclean the system.
+  shell: "apt-get autoclean --assume-yes"
+  sudo: yes

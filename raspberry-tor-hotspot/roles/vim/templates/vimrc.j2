@@ -1,0 +1,39 @@
+" enable mouse control
+:set mouse=a
+set expandtab
+
+" awesome colorscheme
+colorscheme badwolf
+" molokai Colour schemes, the bottom one is 256 version
+"let g:molokai_original = 1
+"let g:rehash256 = 1
+
+" enable syntax processing
+syntax enable           
+
+" Spaces are better than a tab character
+" number of visual spaces per TAB
+set tabstop=4
+
+" number of spaces in tab when editing
+set softtabstop=4
+
+" tabs are spaces
+set expandtab    
+set smarttab
+
+" Show numbers
+set number
+
+" highlight current line
+set cursorline
+
+" highlight matching [{()}]
+set showmatch
+
+" pathogen
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
+
+set clipboard=unnamed

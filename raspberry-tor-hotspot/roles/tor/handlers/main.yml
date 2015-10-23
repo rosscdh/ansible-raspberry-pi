@@ -1,0 +1,15 @@
+---
+# Here we need to restart the hotspot, Tor and the DHCP server to pick up
+# our new settings.
+
+- name: restart hostapd
+  service: name=hostapd state=restarted enabled=yes
+  sudo: yes
+
+- name: restart isc-dhcp-server
+  service: name=isc-dhcp-server state=restarted enabled=yes
+  sudo: yes
+
+- name: restart tor
+  service: name=tor state=restarted enabled=yes
+  sudo: yes
