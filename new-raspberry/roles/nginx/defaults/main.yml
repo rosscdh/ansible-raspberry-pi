@@ -2,7 +2,7 @@
 # The variables file used by the playbooks in the development host.
 # These don't have to be explicitly imported by vars_files: they are autopopulated.
 
-nginx_version: v1.6.4
+nginx_version: release-1.6.3
 
 nginx_config:
   [
