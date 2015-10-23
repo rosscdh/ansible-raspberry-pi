@@ -20,8 +20,8 @@ nginx_rtmp_module_version: v1.1.7
 nginx_rtmp_module_port: 1935
 nginx_rtmp_module_videos_path: "/var/videos"
 nginx_rtmp_module_sample_video_url: "http://www.html5videoplayer.net/videos/toystory.mp4"
-nginx_rtmp_module_publish_ip:
-- 127.0.0.1
+#nginx_rtmp_module_publish_ip:
+#- 127.0.0.1
 
 recompile: false #Override if you want to rebuild nginx
 
