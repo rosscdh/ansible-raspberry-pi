@@ -1,6 +1,6 @@
 ---
 #
-# As per: https://www.dotdeb.org/2014/09/20/nginx-1-6-2-for-wheezy-and-squeeze/
+# As per: http://stuff.stevenreid.uk/2015/03/24/install-nginx-1-6-2-with-rtmp-module-on-raspbian/
 # nginx rtmp is now part of nginx-extras as per 1.6.2
 #
 - name: Install basics
@@ -20,21 +20,28 @@
 
 - name: Download nginx 1.6.2
   shell: wget http://nginx.org/download/nginx-1.6.2.tar.gz -P /tmp/
+
 - name: Untar nginx 1.6.2
   shell: cd /tmp;tar -xzf nginx-1.6.2.tar.gz
+
 - name: Configure nginx 1.6.2
   shell: cd /tmp/nginx-1.6.2/;./configure --with-http_ssl_module --add-module=../nginx-rtmp-module
+
 - name: Make nginx 1.6.2
   shell: cd /tmp/nginx-1.6.2/;make
+
 - name: Make nginx 1.6.2
   shell: mv nginx-1.6.2 /usr/local/
   sudo: yes
+
 - name: Version independent nginx 1.6.2
   shell: ln -s /usr/local/nginx-1.6.2/ /usr/local/nginx
   sudo: yes
+
 - name: Setup dirs nginx 1.6.2
   shell: mkdir /usr/local/nginx/sbin;cp /usr/local/nginx/objs/nginx /usr/local/nginx/sbin/;mkdir /usr/local/nginx/logs
   sudo: yes
+
 - name: restart nginx
   service: name=nginx state=restarted enabled=yes
 
