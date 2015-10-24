@@ -1,11 +1,11 @@
 ---
-- name: Let's update the apt cache.
-  apt: update_cache=yes
-  sudo: yes
+# - name: Let's update the apt cache.
+#   apt: update_cache=yes
+#   sudo: yes
 
-- name: Now we need to update the Raspbian distribution.
-  apt: upgrade=yes
-  sudo: yes
+# - name: Now we need to update the Raspbian distribution.
+#   apt: upgrade=yes
+#   sudo: yes
 
 - name: We are setting our new hostname.
   hostname: name={{ hostname }}

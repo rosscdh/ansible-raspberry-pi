@@ -6,9 +6,9 @@
 
   roles:
      # - common
-     # - oh-my-zsh
-     # - rmate
-     - vim
+     # - futurice.supervisor
+     - nginx
+     - raspberry_livestream
 
   # tasks:
   #   - name: Final greeting upon successful Completion.

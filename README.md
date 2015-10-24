@@ -1,8 +1,12 @@
 # My Raspberry Pi Ansible Playbooks #
 
+
 These playbooks will help you setup, provision, tinker and otherwise interfere with your [Raspberry Pi](http://www.raspberrypi.org/)!
 
-Obviously to make use of these playbooks you will need to install [Ansible](http://ansible.com/), which is a commandline tool which enables simple provisioning of remote servers.  
+
+- sudo ansible-galaxy install futurice.supervisor
+
+Obviously to make use of these playbooks you will need to install [Ansible](http://ansible.com/), which is a commandline tool which enables simple provisioning of remote servers.
 
 Ansible doesn't require anything to be installed on your remote servers like similar tools such as [Puppet](http://puppetlabs.com/) and [Chef](http://www.getchef.com/chef/) do, as all that is needed for configurations is that you have key based [ssh](http://en.wikipedia.org/wiki/Secure_Shell) access to the remote server.
 

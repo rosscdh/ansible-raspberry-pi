@@ -1,0 +1,19 @@
+---
+#
+# setup the livestream supervisor settings
+#
+# - name: Install nginx-extras with rtmp
+#   apt: pkg=nginx-extras state=installed update_cache=true
+
+- name: Copy our supervisor settings
+  synchronize: src=stream.supervisor.conf dest=/etc/supervisor/conf.d/stream.supervisor.conf
+
+- name: Create rasberry_livestream dir in /home/pi/rasberry_livestream
+  file: path=/home/pi/rasberry_livestream state=directory
+
+- name: Copy the stream.sh executable
+  synchronize: src=stream.sh dest=/home/pi/rasberry_livestream/stream.sh
+
+- name: Clone the ADAfruid module
+  shell: "pip install -e git+https://github.com/adafruit/Adafruit_Python_DHT#egg=Adafruit_DHT"
+  sudo: yes

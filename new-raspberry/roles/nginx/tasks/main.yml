@@ -1,87 +1,47 @@
 ---
-# These tasks install nginx
-# Based upon: https://github.com/Hounddog/vagrant-ansible/blob/master/provisioning/roles/nginx/tasks/main.yml
-
-- name: Get installed modules for nginx
-  shell: nginx -V
-  register: nginx_flags
-  ignore_errors: true
-
-- set_fact:
-    recompile: true
-  when: "item not in nginx_flags.stderr"
-  with_items: nginx_config
-
-- name: Download nginx from git
-  git: repo={{item.repo}} dest={{item.dest}} version={{item.version}}
+#
+# As per: https://www.dotdeb.org/2014/09/20/nginx-1-6-2-for-wheezy-and-squeeze/
+# nginx rtmp is now part of nginx-extras as per 1.6.2
+#
+- name: Install basics
+  apt: pkg={{ item }} state=latest
+  sudo: yes
   with_items:
-    - {
-        repo: "https://github.com/nginx/nginx.git",
-        dest: "nginx",
-        version: "{{ nginx_version }}"
-      }
-  when: recompile == true
+    - libpcre3
+    - libpcre3-dev
+    - libssl-dev
 
-- name: Download nginx rtmp-module from git
-  git: repo={{item.repo}} dest={{item.dest}} version={{item.version}}
-  with_items:
-    - {
-        repo: "https://github.com/arut/nginx-rtmp-module.git",
-        dest: "modules/rtmp",
-        version: "{{ nginx_rtmp_module_version }}"
-      }
-  when: nginx_rtmp_module == true and recompile == true
+#
+# Install rtmp
+#
+- name: Clone nginx-rtmp
+  git: repo=https://github.com/arut/nginx-rtmp-module.git
+       dest=/tmp/nginx-rtmp-module
 
-- name: Stop nginx before reinstalling
-  service: name=nginx state=stopped
-  ignore_errors: true
-  when: recompile == true
-
-- name: Compile nginx
-  command: chdir=nginx {{item}}
-  with_items:
-    - "./configure {{ nginx_config|join(' ') }} "
-    - "make -j4"
-  when: recompile == true
-
-- name: Install nginx
-  command: chdir=nginx make install
-  when: recompile == true
-
-- name: Copy the nginx configuration file
-  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
-  notify:
-    - restart nginx
-
-- name: "Copying nginx Shell script"
-  template: src=nginx dest=/etc/init.d/nginx mode=0711
-
-- name: Create nginx directories for site configuration
-  file: path=/etc/nginx/{{item}} state=directory owner=root group=root mode=0775
-  with_items:
-    - "sites-available"
-    - "sites-enabled"
-
-- name: Create /etc/nginx/conf.d directory
-  file: path=/etc/nginx/conf.d state=directory owner=root group=root mode=0775
-
-- name: Create /var/www directory
-  file: path=/var/www state=directory owner=root group=root mode=0755
-
-- name: Create videos directory
-  file: path={{ nginx_rtmp_module_videos_path }} state=directory owner=root group=root mode=0755
-  when: nginx_rtmp_module == true
+- name: Download nginx 1.6.2
+  shell: wget http://nginx.org/download/nginx-1.6.2.tar.gz -P /tmp/
+- name: Untar nginx 1.6.2
+  shell: cd /tmp;tar -xzf nginx-1.6.2.tar.gz
+- name: Configure nginx 1.6.2
+  shell: cd /tmp/nginx-1.6.2/;./configure --with-http_ssl_module --add-module=../nginx-rtmp-module
+- name: Make nginx 1.6.2
+  shell: cd /tmp/nginx-1.6.2/;make
+- name: Make nginx 1.6.2
+  shell: mv nginx-1.6.2 /usr/local/
+  sudo: yes
+- name: Version independent nginx 1.6.2
+  shell: ln -s /usr/local/nginx-1.6.2/ /usr/local/nginx
+  sudo: yes
+- name: Setup dirs nginx 1.6.2
+  shell: mkdir /usr/local/nginx/sbin;cp /usr/local/nginx/objs/nginx /usr/local/nginx/sbin/;mkdir /usr/local/nginx/logs
+  sudo: yes
+- name: restart nginx
+  service: name=nginx state=restarted enabled=yes
 
 
-- name: Add rtmp.conf config
-  template: src=rtmp dest=/etc/nginx/rtmp.conf
-  notify: 
-    - restart nginx
-  when: nginx_rtmp_module == true
+#
+# Copy our conf
+#
 
-- name: Start the nginx service
-  service: name=nginx state=started enabled=yes
-
-- name: Download sample video to host over RTMP
-  get_url: url={{ nginx_rtmp_module_sample_video_url }} dest={{ nginx_rtmp_module_videos_path }}/sample.mp4 mode=0744
-  when: nginx_rtmp_module == true
+- name: Copy our nginx.conf with rtmp config to nginx.conf
+  synchronize: src=nginx.conf dest=/etc/nginx/nginx.conf
