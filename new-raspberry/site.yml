@@ -5,8 +5,8 @@
   gather_facts: yes
 
   roles:
-     - common
-     - futurice.supervisor
+     # - common
+     # - futurice.supervisor
      - nginx
      - raspberry_livestream
 

@@ -11,67 +11,52 @@
     - libssl-dev
     - nginx
 
-- name: Remove nginx - yes this is correct
-  apt: pkg={{ item }} state=absent
-  sudo: yes
-  with_items:
-    - nginx
-
-- name: Purge nginx - yes this is correct
-  apt: pkg={{ item }} state=removed
-  sudo: yes
-  with_items:
-    - nginx
-
-- name: Create nginx-build directory
-  file: path={{ nginx_build_path }} state=directory
-
-- name: Upload local copy of nginx 1.7.5
-  synchronize: src=nginx-1.7.5.tar.gz dest={{ nginx_build_path }}
-
-- name: Unzip
-  unarchive: src=nginx-1.7.5.tar.gz dest={{ nginx_build_path }}
-
-- name: Unzip
-  unarchive: src=nginx-rtmp-module-master.zip dest={{ nginx_build_path }}
-
-- name: Configure nginx
-  shell: cd {{ nginx_build_path }}/nginx-1.7.5;./configure --prefix=/var/www --sbin-path=/usr/sbin/nginx  --conf-path=/etc/nginx/nginx.conf --pid-path=/var/run/nginx.pid --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --with-http_ssl_module --without-http_proxy_module --add-module={{ nginx_build_path }}/nginx-rtmp-module-master
-
-- name: Make nginx
-  shell: cd {{ nginx_build_path }}/nginx-1.7.5;make
-
-- name: Make Install nginx
-  shell: cd {{ nginx_build_path }}/nginx-1.7.5;make install
-  sudo: yes
-
 #
 # Install rtmp
 #
 
-# sudo apt-get install nginx -y
-# sudo apt-get remove nginx -y
-# sudo apt-get clean nginx -y
-# sudo apt-get install -y curl build-essential libpcre3-dev libpcre++-dev zlib1g-dev libcurl4-openssl-dev libssl-dev
-# mkdir nginx-build
-# cd nginx-build
-# wget http://nginx.org/download/nginx-1.7.5.tar.gz
-# wget https://github.com/arut/nginx-rtmp-module/archive/master.zip
-# tar -zxvf nginx-1.7.5.tar.gz
-# unzip master.zip
-# cd nginx-1.7.5
-# ./configure --prefix=/var/www --sbin-path=/usr/sbin/nginx  --conf-path=/etc/nginx/nginx.conf --pid-path=/var/run/nginx.pid --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --with-http_ssl_module --without-http_proxy_module --add-module={{ nginx_build_path }}/nginx-rtmp-module-master
+# - name: Remove nginx - yes this is correct
+#   apt: pkg={{ item }} state=absent
+#   sudo: yes
+#   with_items:
+#     - nginx
 
-# make
-# sudo make install
-# echo "made it to the end"
+# - name: Purge nginx - yes this is correct
+#   apt: pkg={{ item }} state=removed
+#   sudo: yes
+#   with_items:
+#     - nginx
 
+# - name: Create nginx-build directory
+#   file: path={{ nginx_build_path }} state=directory
+
+# - name: Upload local copy of nginx 1.7.5
+#   synchronize: src=nginx-1.7.5.tar.gz dest={{ nginx_build_path }}
+
+# - name: Unzip
+#   unarchive: src=nginx-1.7.5.tar.gz dest={{ nginx_build_path }}
+
+# - name: Unzip
+#   unarchive: src=nginx-rtmp-module-master.zip dest={{ nginx_build_path }}
+
+# - name: Configure nginx
+#   shell: cd {{ nginx_build_path }}/nginx-1.7.5;./configure --prefix=/var/www --sbin-path=/usr/sbin/nginx  --conf-path=/etc/nginx/nginx.conf --pid-path=/var/run/nginx.pid --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --with-http_ssl_module --without-http_proxy_module --add-module={{ nginx_build_path }}/nginx-rtmp-module-master
+
+# - name: Make nginx
+#   shell: cd {{ nginx_build_path }}/nginx-1.7.5;make
+
+# - name: Make Install nginx
+#   shell: cd {{ nginx_build_path }}/nginx-1.7.5;make install
+#   sudo: yes
 
 #
 # Copy our conf
 #
 
-- name: Copy our raspberry_livestream.conf with rtmp config to sites-enabled
+- name: Copy our nginx.conf with rtmp config to nginx.conf
+  synchronize: src=raspberry_livestream.conf dest=/etc/nginx/sites-enabled/raspberry_livestream.conf
+
+- name: Copy our raspberry_livestream.conf to sites-enabled
   synchronize: src=raspberry_livestream.conf dest=/etc/nginx/sites-enabled/raspberry_livestream.conf
 
 

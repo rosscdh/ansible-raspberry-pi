@@ -25,12 +25,8 @@
     - curl
     - htop
     - nmap
-    - tmux
     - nmon
     - rpi-update
-    - haveged
-    - avahi-daemon
-    - rng-tools
     - vim
 
 - name: Uninstall the massive wolfram-alpha engine
