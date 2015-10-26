@@ -2,18 +2,24 @@
 #
 # setup the livestream supervisor settings
 #
-# - name: Install nginx-extras with rtmp
-#   apt: pkg=nginx-extras state=installed update_cache=true
-
 - name: Copy our supervisor settings
   synchronize: src=stream.supervisor.conf dest=/etc/supervisor/conf.d/stream.supervisor.conf
 
 - name: Create rasberry_livestream dir in /home/pi/rasberry_livestream
-  file: path=/home/pi/rasberry_livestream state=directory
+  file: path={{ livestream_path }} state=directory
 
 - name: Copy the stream.sh executable
-  synchronize: src=stream.sh dest=/home/pi/rasberry_livestream/stream.sh
+  synchronize: src=stream.sh dest={{ livestream_path }}/stream.sh
 
-- name: Clone the ADAfruid module
-  shell: "pip install -e git+https://github.com/adafruit/Adafruit_Python_DHT#egg=Adafruit_DHT"
+- name: Copy the temp-humidity sensors
+  synchronize: src=temp-humidity.py dest={{ livestream_path }}/temp-humidity.py
+
+- name: Copy the ADAfruit module
+  unarchive: src=Adafruit_Python_DHT-master.zip dest={{ livestream_path }}
+
+- name: Install ADAfruit
+  shell: pip install -e {{ livestream_path }}/Adafruit_Python_DHT-master
   sudo: yes
+
+- name: Cron for sensors
+  cron: name="sensor-temp-humidity" minute="*/5" job="cd {{ livestream_path }};sudo python temp-humidity.py 11 4 > ~/output.json; /usr/local/bin/http POST http://gowit.co.uk/v1/event/ < ~/output.json >/dev/null 2>&1"

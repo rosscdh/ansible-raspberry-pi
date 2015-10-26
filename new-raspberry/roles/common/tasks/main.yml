@@ -1,23 +1,26 @@
 ---
-# - name: Let's update the apt cache.
-#   apt: update_cache=yes
-#   sudo: yes
+- name: Let's update the apt cache.
+  apt: update_cache=yes
+  sudo: yes
 
 # - name: Now we need to update the Raspbian distribution.
 #   apt: upgrade=yes
 #   sudo: yes
 
-- name: We are setting our new hostname.
-  hostname: name={{ hostname }}
+# - name: We are setting our new hostname.
+#   hostname: name={{ hostname }}
 
 - name: Make sure some basic tools are installed
   apt: pkg={{ item }} state=latest
   sudo: yes
   with_items:
     - unattended-upgrades
+    - python-dev
+    - python-setuptools
     - git
     - subversion
     - mercurial
+    - libav-tools
     - httpie
     - curl
     - htop

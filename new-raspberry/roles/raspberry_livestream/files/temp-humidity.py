@@ -62,8 +62,6 @@ def getserial():
 # guarantee the timing of calls to read the sensor).  
 # If this happens try again!
 if humidity is not None and temperature is not None:
-    #print 'Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity)
-    #print '{"sensor_action": "temperature,humidity", "device_id": "%s", "temperature": %s, "humidity": %s}' % (temperature, getserial(), humidity)
     print json.dumps({
         "sensor_action": "temperature,humidity",
         "temperature": temperature,
