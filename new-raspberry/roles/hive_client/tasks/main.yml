@@ -1,0 +1,13 @@
+---
+#
+# setup the livestream supervisor settings
+#
+
+- name: create hive-client directory
+  file: path=hive-client state=directory mode=0755
+
+- name: Copy The local hive client
+  unarchive: src=hive-client.zip dest=/home/pi/hive-client/
+
+- name: setup virtualenv
+  pip: requirements=/home/pi/hive-client/requirements.txt virtualenv=/home/pi/hive-client/.venv

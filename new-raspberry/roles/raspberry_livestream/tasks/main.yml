@@ -2,6 +2,7 @@
 #
 # setup the livestream supervisor settings
 #
+
 - name: Copy our supervisor settings
   synchronize: src=stream.supervisor.conf dest=/etc/supervisor/conf.d/stream.supervisor.conf
 
@@ -22,4 +23,5 @@
   sudo: yes
 
 - name: Cron for sensors
-  cron: name="sensor-temp-humidity" minute="*/5" job="cd {{ livestream_path }};sudo python temp-humidity.py 11 4 > ~/output.json; /usr/local/bin/http POST http://gowit.co.uk/v1/event/ < ~/output.json >/dev/null 2>&1"
+  cron: name="sensor-temp-humidity" minute="*/5" job="cd {{ livestream_path }};sudo python temp-humidity.py 11 4 > {{ home_path }}/output.json; /usr/bin/http POST http://gowit.co.uk/v1/event/ < {{ home_path }}/output.json >/dev/null 2>&1"
+  sudo: no

@@ -17,7 +17,9 @@
     - unattended-upgrades
     - python-dev
     - python-setuptools
+    - python-virtualenv
     - git
+    #- uwsgi
     - subversion
     - mercurial
     - libav-tools

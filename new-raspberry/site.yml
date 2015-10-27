@@ -1,14 +1,15 @@
 ---
 - hosts: all
   remote_user: pi
-  sudo: True
+  sudo: no
   gather_facts: yes
 
   roles:
      # - common
      # - futurice.supervisor
-     - nginx
-     - raspberry_livestream
+     # - nginx
+     # - raspberry_livestream
+     - hive_client
 
   # tasks:
   #   - name: Final greeting upon successful Completion.

@@ -15,39 +15,39 @@
 # Install rtmp
 #
 
-# - name: Remove nginx - yes this is correct
-#   apt: pkg={{ item }} state=absent
-#   sudo: yes
-#   with_items:
-#     - nginx
+- name: Remove nginx - yes this is correct
+  apt: pkg={{ item }} state=absent
+  sudo: yes
+  with_items:
+    - nginx
 
-# - name: Purge nginx - yes this is correct
-#   apt: pkg={{ item }} state=removed
-#   sudo: yes
-#   with_items:
-#     - nginx
+- name: Purge nginx - yes this is correct
+  apt: pkg={{ item }} state=removed
+  sudo: yes
+  with_items:
+    - nginx
 
-# - name: Create nginx-build directory
-#   file: path={{ nginx_build_path }} state=directory
+- name: Create nginx-build directory
+  file: path={{ nginx_build_path }} state=directory
 
-# - name: Upload local copy of nginx 1.7.5
-#   synchronize: src=nginx-1.7.5.tar.gz dest={{ nginx_build_path }}
+- name: Upload local copy of nginx 1.7.5
+  synchronize: src=nginx-1.7.5.tar.gz dest={{ nginx_build_path }}
 
-# - name: Unzip
-#   unarchive: src=nginx-1.7.5.tar.gz dest={{ nginx_build_path }}
+- name: Unzip
+  unarchive: src=nginx-1.7.5.tar.gz dest={{ nginx_build_path }}
 
-# - name: Unzip
-#   unarchive: src=nginx-rtmp-module-master.zip dest={{ nginx_build_path }}
+- name: Unzip
+  unarchive: src=nginx-rtmp-module-master.zip dest={{ nginx_build_path }}
 
-# - name: Configure nginx
-#   shell: cd {{ nginx_build_path }}/nginx-1.7.5;./configure --prefix=/var/www --sbin-path=/usr/sbin/nginx  --conf-path=/etc/nginx/nginx.conf --pid-path=/var/run/nginx.pid --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --with-http_ssl_module --without-http_proxy_module --add-module={{ nginx_build_path }}/nginx-rtmp-module-master
+- name: Configure nginx
+  shell: cd {{ nginx_build_path }}/nginx-1.7.5;./configure --prefix=/var/www --sbin-path=/usr/sbin/nginx  --conf-path=/etc/nginx/nginx.conf --pid-path=/var/run/nginx.pid --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --with-http_ssl_module --without-http_proxy_module --add-module={{ nginx_build_path }}/nginx-rtmp-module-master
 
-# - name: Make nginx
-#   shell: cd {{ nginx_build_path }}/nginx-1.7.5;make
+- name: Make nginx
+  shell: cd {{ nginx_build_path }}/nginx-1.7.5;make
 
-# - name: Make Install nginx
-#   shell: cd {{ nginx_build_path }}/nginx-1.7.5;make install
-#   sudo: yes
+- name: Make Install nginx
+  shell: cd {{ nginx_build_path }}/nginx-1.7.5;make install
+  sudo: yes
 
 #
 # Copy our conf
