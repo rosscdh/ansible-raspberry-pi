@@ -54,11 +54,7 @@
 #
 
 - name: Copy our nginx.conf with rtmp config to nginx.conf
-  synchronize: src=raspberry_livestream.conf dest=/etc/nginx/sites-enabled/raspberry_livestream.conf
-
-- name: Copy our raspberry_livestream.conf to sites-enabled
-  synchronize: src=raspberry_livestream.conf dest=/etc/nginx/sites-enabled/raspberry_livestream.conf
-
+  synchronize: src=nginx.conf dest=/etc/nginx/nginx.conf
 
 - name: restart nginx
   service: name=nginx state=restarted enabled=yes

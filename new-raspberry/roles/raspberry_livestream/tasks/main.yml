@@ -5,6 +5,7 @@
 
 - name: Copy our supervisor settings
   synchronize: src=stream.supervisor.conf dest=/etc/supervisor/conf.d/stream.supervisor.conf
+  sudo: yes
 
 - name: Create rasberry_livestream dir in /home/pi/rasberry_livestream
   file: path={{ livestream_path }} state=directory
@@ -12,16 +13,13 @@
 - name: Copy the stream.sh executable
   synchronize: src=stream.sh dest={{ livestream_path }}/stream.sh
 
-- name: Copy the temp-humidity sensors
-  synchronize: src=temp-humidity.py dest={{ livestream_path }}/temp-humidity.py
+# - name: Copy the ADAfruit module
+#   unarchive: src=Adafruit_Python_DHT-master.zip dest={{ livestream_path }}
 
-- name: Copy the ADAfruit module
-  unarchive: src=Adafruit_Python_DHT-master.zip dest={{ livestream_path }}
+# - name: Install ADAfruit
+#   shell: pip install -e {{ livestream_path }}/Adafruit_Python_DHT-master
+#   sudo: yes
 
-- name: Install ADAfruit
-  shell: pip install -e {{ livestream_path }}/Adafruit_Python_DHT-master
-  sudo: yes
-
-- name: Cron for sensors
-  cron: name="sensor-temp-humidity" minute="*/5" job="cd {{ livestream_path }};sudo python temp-humidity.py 11 4 > {{ home_path }}/output.json; /usr/bin/http POST http://gowit.co.uk/v1/event/ < {{ home_path }}/output.json >/dev/null 2>&1"
-  sudo: no
+# - name: Cron for sensors
+#   cron: name="sensor-temp-humidity" minute="*/5" job="cd {{ livestream_path }};sudo python temp-humidity.py 11 4 > {{ home_path }}/output.json; /usr/bin/http POST http://gowit.co.uk/v1/event/ < {{ home_path }}/output.json >/dev/null 2>&1"
+#   sudo: no
