@@ -3,14 +3,12 @@
   remote_user: pi
   sudo: no
   gather_facts: yes
-  vars:
-    api_uri: http://192.168.2.1
 
   roles:
-     # - common
-     # - futurice.supervisor
-     # - nginx
-     # - raspberry_livestream
+     - common
+     - futurice.supervisor
+     - nginx
+     - raspberry_livestream
      - hive_client
 
   # tasks:

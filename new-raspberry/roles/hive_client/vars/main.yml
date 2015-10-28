@@ -2,7 +2,7 @@
 hive_client_path: /home/pi/hive-client
 DEBUG: True
 PROJECT_ENV: dev
-CORE_SERVER: http://192.168.2.1:8009
+CORE_SERVER: http://gowit.co.uk
 PUSHER_APP_ID: 79947
 PUSHER_KEY: cf7fc048e21bd39e6f82
 PUSHER_SECRET: 01d612aade08edc9dfde
