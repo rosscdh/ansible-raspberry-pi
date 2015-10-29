@@ -1,3 +1,7 @@
 ---
 home_path: /home/pi
 livestream_path: /home/pi/raspberry_livestream
+video_device_path: /dev/video0
+#title: My Bee Monitor
+#rtmp_server: rtmp://1.21438930.fme.ustream.tv/ustreamVideo/21438930/zAEep6E36EVnGZbxbMDVHbDJntzGc8gS
+#rtmp_server: rtmp://1.21470660.fme.ustream.tv/ustreamVideo/21470660/2wkSkUgJ74Fg9whgcKKmjKGc3vVELJE3

@@ -18,3 +18,9 @@
 - name: Cron for sensors
   cron: name="sensor-temp-humidity" minute="*/5" job="cd {{ hive_client_path }};sudo .venv/bin/python manage.py temperature_humidity"
   sudo: no
+
+- name: Run register
+  shell: cd {{ hive_client_path }};sudo .venv/bin/python manage.py register
+
+- name: Run first sensor event
+  shell: cd {{ hive_client_path }};sudo .venv/bin/python manage.py temperature_humidity

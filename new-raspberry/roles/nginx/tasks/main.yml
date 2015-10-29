@@ -9,7 +9,20 @@
     - libpcre3
     - libpcre3-dev
     - libssl-dev
-    - nginx
+    # - nginx
+
+- name: Create nginx-build directory
+  file: path={{ nginx_build_path }} state=directory
+
+#
+# Install nginx from our loca .deb file
+#
+- name: Put nginx - from our local deb file
+  synchronize: src=nginx-full_1.6.2-5_armhf.deb dest={{ nginx_build_path }}
+
+- name: Install nginx - from our local deb file
+  apt: deb={{ nginx_build_path }}/nginx-full_1.6.2-5_armhf.deb
+  sudo: yes
 
 #
 # Install rtmp
@@ -26,9 +39,6 @@
   sudo: yes
   with_items:
     - nginx
-
-- name: Create nginx-build directory
-  file: path={{ nginx_build_path }} state=directory
 
 - name: Upload local copy of nginx 1.7.5
   synchronize: src=nginx-1.7.5.tar.gz dest={{ nginx_build_path }}
@@ -55,6 +65,7 @@
 
 - name: Copy our nginx.conf with rtmp config to nginx.conf
   synchronize: src=nginx.conf dest=/etc/nginx/nginx.conf
+  sudo: yes
 
 - name: restart nginx
   service: name=nginx state=restarted enabled=yes
