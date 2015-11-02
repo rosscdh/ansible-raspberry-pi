@@ -5,10 +5,10 @@
   gather_facts: yes
 
   roles:
-     # - common
-     # - { role: futurice.supervisor, sudo: yes }
-     # - nginx
-     # - raspberry_livestream
+     - common
+     - { role: futurice.supervisor, sudo: yes }
+     - nginx
+     - raspberry_livestream
      - hive_client
 
   # tasks:

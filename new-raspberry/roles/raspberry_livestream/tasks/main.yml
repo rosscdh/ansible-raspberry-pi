@@ -16,3 +16,7 @@
 - name: Restart supervisorctl
   shell: supervisorctl restart raspberry_livestream
   sudo: yes
+
+- name: Restart nginx
+  action: service name=nginx state=restarted
+  sudo: yes
