@@ -16,7 +16,7 @@
   pip: requirements={{ hive_client_path }}/requirements.txt virtualenv={{ hive_client_path }}/.venv
 
 - name: Cron for sensors
-  cron: name="sensor-temp-humidity" minute="*/5" job="cd {{ hive_client_path }};sudo .venv/bin/python manage.py temperature_humidity"
+  cron: name="sensor-temp-humidity" minute="*/5" job="cd {{ hive_client_path }};sudo .venv/bin/python manage.py temperature_humidity >/dev/null 2>&1"
   sudo: no
 
 - name: Run register

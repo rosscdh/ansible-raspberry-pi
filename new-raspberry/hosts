@@ -1,3 +1,3 @@
 [raspberries]
-
+#rasberrypi ansible_ssh_host=192.168.2.2 ansible_ssh_user=pi rtmp_server=rtmp://1.21438930.fme.ustream.tv/ustreamVideo/21438930/zAEep6E36EVnGZbxbMDVHbDJntzGc8gS title='SektorProtype'
 rasberrypi2 ansible_ssh_host=192.168.2.3 ansible_ssh_user=pi rtmp_server=rtmp://1.21470660.fme.ustream.tv/ustreamVideo/21470660/2wkSkUgJ74Fg9whgcKKmjKGc3vVELJE3 title='RoadPrototype v1.0'
