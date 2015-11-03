@@ -8,8 +8,9 @@
      # - common
      # - { role: futurice.supervisor, sudo: yes }
      # - nginx
-     - raspberry_livestream
+     # - raspberry_livestream
      # - hive_client
+     - wifi  # Includes reboot
 
   # tasks:
   #   - name: Final greeting upon successful Completion.

@@ -1,0 +1,8 @@
+---
+- name: 'Configure WIFI'
+  template: src=wpa_supplicant.conf dest=/etc/wpa_supplicant/wpa_supplicant.conf mode=0600
+  sudo: yes
+
+- name: 'Reboot'
+  shell: reboot -h now
+  sudo: yes
